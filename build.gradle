@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'com.gradleup.shadow' version '9.3.0'
-    id("xyz.jpenilla.run-paper") version "2.3.1"
+    id "xyz.jpenilla.run-paper" version "2.3.1"
     id 'maven-publish'
 }
 
@@ -75,7 +75,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/vertyx/AutoWhitelist"
+            url = "https://maven.pkg.github.com/jmaSchubert/AutoWhitelist"
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
@@ -83,7 +83,7 @@ publishing {
         }
     }
     publications {
-        maven(MavenPublication) {
+        gpr(MavenPublication) {
             from components.java
         }
     }
