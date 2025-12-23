@@ -35,9 +35,9 @@ jobs:
     - name: Build with Gradle and shadowJar
       run: ./gradlew shadowJar
 
-    - name: Upload JAR to Release
+    - name: Upload JAR Artifact
       uses: actions/upload-artifact@v4
       with:
         name: AutoWhitelist-plugin
-        path: target/*.jar
+        path: build/libs/*.jar
         retention-days: 30
