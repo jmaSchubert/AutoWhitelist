@@ -1,0 +1,9 @@
+name: AutoWhitelist
+main: org.vertyx.autoWhitelist.AutoWhitelist
+version: 1.0.0
+api-version: 1.20
+commands:
+  autowhitelist:
+    description: Reload the whitelist from Google Drive
+    usage: /autowhitelist reload
+    aliases: [awl]
