@@ -28,26 +28,39 @@ This plugin requires a Google Cloud Console account with the Google Drive API en
    - After creating the service account, download the `credentials.json` file
    - This file contains the authentication keys needed to access Google Drive
 
-## ⚠️ Security Warning
+##  Security Warning
 
 **Storing credentials on a remote server can be a security risk.** For this reason:
 
 - **Create a dedicated Google account** specifically for this plugin's service account
 - Do not use your personal Google account
 - Keep the `credentials.json` file secure and never commit it to version control
-- Consider using environment-specific credentials and rotating them periodically
 
 ## Installation
 
-1. Download the AutoWhitelist plugin JAR file
-2. Place it in your server's `plugins/` directory
-3. Start your server (this will create the config directory structure)
-4. Upload your `credentials.json` file to the automatically created config directory:
-   ```
-   plugins/AutoWhitelist/credentials.json
-   ```
-5. Configure the plugin with your Google Drive whitelist file details
-6. Restart the server
+1. **Download the AutoWhitelist plugin JAR file**
+   - Get the latest release from the GitHub releases page
+
+2. **Place in plugins directory**
+   - Copy the JAR file to your server's `plugins/` directory
+
+3. **Start the server**
+   - Start your server to generate the config directory structure
+   - The plugin will automatically create: `plugins/AutoWhitelist/`
+
+4. **Upload credentials.json**
+   - Place your Google Drive service account `credentials.json` file in:
+     ```
+     plugins/AutoWhitelist/credentials.json
+     ```
+   - **Important:** Never commit this file to version control or share it publicly.
+
+5. **Configure the plugin**
+   - Edit `plugins/AutoWhitelist/config.yml` with your Google Drive whitelist file details
+   - Specify the Google Drive file ID or file name to use
+
+6. **Restart the server**
+   - Restart to apply the configuration and load the whitelist
 
 ## Configuration
 
@@ -63,13 +76,29 @@ Your whitelist CSV file on Google Drive should follow this format:
 Playername,01.12.2025,01.01.2026,01.02.2026
 Steve,True,True,True
 Alex,False,False,False
+JohnDoe,True,False,True
+```
+
+**Example with month/date columns:**
+```csv
+Playername,01.12.2024,01.01.2025,01.02.2025
+Steve,True,True,True
+Alex,False,False,False
+JohnDoe,True,False,True
+CreativePlayer,True,True,True
 ```
 
 **Column Details:**
-- `Playername`: The player's Minecraft username
-- Subsequent columns represent the ongoing months with `True` or `False` values indicating whether the player is whitelisted for that month
+- `Playername`: The player's Minecraft username (first column, case-sensitive)
+- Subsequent columns: Can represent dates, months, or any custom period with `True` or `False` values
+  - `True` = Player is whitelisted for that period
+  - `False` = Player is NOT whitelisted for that period
 
-**Note:** Only the `username` column is mandatory. Additional columns can be added as needed.
+**Requirements:**
+- The first column **must** be named `Playername`
+- Player usernames are case-sensitive (must match exact Minecraft username)
+- CSV file should not contain empty rows
+- Only rows with `True` in any enabled column will be whitelisted
 
 ## Usage
 
@@ -81,21 +110,53 @@ The whitelist is automatically enforced:
 
 ### Command-Based Whitelist Updates
 
-You can also manually trigger a whitelist update using the provided command:
+You can manually trigger a whitelist update using the provided command:
+
+**Command Syntax:**
 ```
 /autowhitelist reload
 ```
 
-This will immediately fetch the latest whitelist from Google Drive and update the server whitelist.
+**Command Options:**
+- `/autowhitelist reload` - Fetch the latest whitelist from Google Drive and update the server
+
+This will immediately fetch the latest whitelist from Google Drive and update the server whitelist without requiring a restart.
 
 ## Troubleshooting
 
-- Ensure the service account has read access to the shared Google Drive CSV file
-- Verify that `credentials.json` is placed in the correct directory
-- Check server logs for any API errors or authentication issues
-- Make sure the CSV file format matches the expected structure
+### Getting Help
 
-## Support
+- Check server logs for detailed error messages
+- Verify all files are in the correct directories
+- Ensure Google Cloud project is properly configured
+- Open an issue on the GitHub repository with relevant log excerpts
 
-For issues or questions, please open an issue on the project repository.
+### Support
+> As this plugin is very minimal and heavily dependent on third-party services, support is limited. 
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to this project:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## Building from Source
+
+### Requirements
+- Java 21 JDK
+- Gradle 8.0+
+
+### Build Steps
+```bash
+# Clone the repository
+git clone https://github.com/vertyx/AutoWhitelist.git
+cd AutoWhitelist
+
+# Build the plugin
+./gradlew shadowJar
+
+# The built JAR will be in: build/libs/AutoWhitelist-*.jar
+```
 
