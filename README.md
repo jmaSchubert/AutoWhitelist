@@ -75,17 +75,7 @@ Your whitelist CSV file on Google Drive should follow this format:
 ```csv
 Playername,01.12.2025,01.01.2026,01.02.2026
 Steve,True,True,True
-Alex,False,False,False
-JohnDoe,True,False,True
-```
-
-**Example with month/date columns:**
-```csv
-Playername,01.12.2024,01.01.2025,01.02.2025
-Steve,True,True,True
-Alex,False,False,False
-JohnDoe,True,False,True
-CreativePlayer,True,True,True
+Alex,True,False,True
 ```
 
 **Column Details:**
